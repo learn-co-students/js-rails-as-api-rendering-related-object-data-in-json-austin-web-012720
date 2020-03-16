@@ -3,4 +3,13 @@ class BirdsController < ApplicationController
     @birds = Bird.all
     render json: @birds
   end
+
+  def show 
+    signthing = Sighting.find_by(id: params[:id])
+    render json: sighting.to_json(:include => {
+      :bird => {:only => [:mame, :species]},
+      :location => {:only => [:latitude, :longitude]}
+    }, :except => [:updated_at])
+  end 
+
 end
